@@ -1,0 +1,21 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('categorie_cadeau', function (Blueprint $table) {
+            $table->increments('id_categorie_cadeau');
+            $table->string('nom', 50);
+            $table->string('libelle', 100)->nullable();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('categorie_cadeau');
+    }
+};
