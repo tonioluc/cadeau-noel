@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+// Page accueil
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+)->name('home');
