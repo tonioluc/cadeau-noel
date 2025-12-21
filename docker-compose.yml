@@ -3,15 +3,15 @@ version: '3.8'
 services:
   app:
     image: tonioluc/php-laravel:latest
-    container_name: laravel_app
+    container_name: cadeau_noel_app
     restart: unless-stopped  # Ajoutez cette ligne
     working_dir: /var/www/html
     volumes:
       - ./:/var/www/html
       - ./docker-entrypoint.sh:/docker-entrypoint.sh  # Montage du script
-      - composer-cache:/var/www/.composer/cache
+      - cadeau_noel_composer_cache:/var/www/.composer/cache
     networks:
-      - laravel
+      - cadeau_noel
     depends_on:
       mysql :
         condition: service_healthy  # Attend que MySQL soit healthy
@@ -22,7 +22,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: laravel_nginx
+    container_name: cadeau_noel_nginx
     restart: unless-stopped
     ports:
       - "8000:80"
@@ -30,25 +30,25 @@ services:
       - ./:/var/www/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - laravel
+      - cadeau_noel
     depends_on:
       - app
 
   mysql:
     image: mysql:8.0
-    container_name: laravel_mysql
+    container_name: cadeau_noel_mysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: cadeau_noel
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: secret
-      MYSQL_USER: laravel
+      MYSQL_PASSWORD: cadeau_secret
+      MYSQL_USER: cadeau_noel
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - cadeau_noel_mysql_data:/var/lib/mysql
     networks:
-      - laravel
+      - cadeau_noel
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       interval: 10s
@@ -57,9 +57,9 @@ services:
       start_period: 30s
 
 networks:
-  laravel:
+  cadeau_noel:
     driver: bridge
 
 volumes:
-  mysql_data:
-  composer-cache:
+  cadeau_noel_mysql_data:
+  cadeau_noel_composer_cache:
