@@ -19,10 +19,6 @@
             <input type="password" id="mot_de_passe" name="mot_de_passe" required>
         </div>
         <div>
-            <label for="mot_de_passe_confirmation">Confirmer le mot de passe</label>
-            <input type="password" id="mot_de_passe_confirmation" name="mot_de_passe_confirmation" required>
-        </div>
-        <div>
             <button type="submit">Créer le compte</button>
         </div>
     </form>
