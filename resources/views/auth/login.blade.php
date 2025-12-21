@@ -12,7 +12,7 @@
         <?php echo csrf_field(); ?>
         <div>
             <label for="nom">Nom d'utilisateur</label>
-            <input type="text" id="nom" name="nom" required>
+            <input type="text" id="nom" name="nom" value="<?php echo e(old('nom')); ?>" required>
         </div>
         <div>
             <label for="mot_de_passe">Mot de passe</label>
