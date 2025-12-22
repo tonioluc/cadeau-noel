@@ -12,11 +12,11 @@
         <?php echo csrf_field(); ?>
         <div>
             <label for="nom">Nom d'utilisateur</label>
-            <input type="text" id="nom" name="nom" value="<?php echo e(old('nom')); ?>" required>
+            <input type="text" id="nom" name="nom" value="<?php echo e(old('nom', 'user1')); ?>" required>
         </div>
         <div>
             <label for="mot_de_passe">Mot de passe</label>
-            <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+            <input type="password" id="mot_de_passe" name="mot_de_passe" value="mdp" required>
         </div>
         <?php if($errors->has('credentials')): ?>
             <div style="color:red;">
