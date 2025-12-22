@@ -8,7 +8,7 @@
 <body>
     <h1>Connexion</h1>
 
-    <form method="POST" action="#">
+    <form method="POST" action="<?php echo e(route('login.store')); ?>">
         <?php echo csrf_field(); ?>
         <div>
             <label for="nom">Nom d'utilisateur</label>
@@ -18,6 +18,11 @@
             <label for="mot_de_passe">Mot de passe</label>
             <input type="password" id="mot_de_passe" name="mot_de_passe" required>
         </div>
+        <?php if($errors->has('credentials')): ?>
+            <div style="color:red;">
+                <?php echo e($errors->first('credentials')); ?>
+            </div>
+        <?php endif; ?>
         <div>
             <button type="submit">Se connecter</button>
         </div>
