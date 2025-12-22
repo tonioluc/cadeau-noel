@@ -12,6 +12,7 @@ Route::get('/',function () {
 
 // Auth pages (views only)
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.show');
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');
 
 // Auth actions
