@@ -14,6 +14,6 @@
         <p>Aucun utilisateur en session.</p>
     <?php endif; ?>
 
-    <p><a href="<?php echo e(route('home')); ?>">Aller à l'accueil du site</a></p>
+    <p><a href="<?php echo e(route('utilisateur.accueil')); ?>">Aller à l'accueil du site</a></p>
 </body>
 </html>
