@@ -10,10 +10,14 @@
 
     <?php if(session()->has('id_utilisateur')): ?>
         <p>Votre ID utilisateur: <strong><?php echo e(session('id_utilisateur')); ?></strong></p>
+        <form method="POST" action="<?php echo e(route('logout')); ?>" style="margin-top: 1rem;">
+            <?php echo csrf_field(); ?>
+            <button type="submit">Se déconnecter</button>
+        </form>
     <?php else: ?>
         <p>Aucun utilisateur en session.</p>
     <?php endif; ?>
 
-    <p><a href="<?php echo e(route('utilisateur.accueil')); ?>">Aller à l'accueil du site</a></p>
+    <p><a href="<?php echo e(route('utilisateur.accueil')); ?>">Revenir à l'accueil utilisateur</a></p>
 </body>
 </html>
