@@ -17,6 +17,7 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 
 // Auth actions
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // User home
 Route::get('/accueil', [AccueilController::class, 'index'])->name('utilisateur.accueil');

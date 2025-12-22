@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\Utilisateur;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -49,5 +50,14 @@ class AuthController extends Controller
         return back()
             ->withErrors(['credentials' => "Nom d'utilisateur ou mot de passe incorrect."])
             ->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Session::forget('id_utilisateur');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.show');
     }
 }
