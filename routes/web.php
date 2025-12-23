@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\DepotController;
+use App\Http\Controllers\ParametreController;
 use App\Http\Middleware\CheckSession;
 
 // Landing page redirects to login
@@ -37,3 +38,6 @@ Route::middleware([CheckSession::class])->group(function () {
 Route::get('/validation-depot',[DepotController::class,'showValidation'])->name('depot.en-attente.list');
 Route::post('/validation-depot',[DepotController::class,'validerDepot'])->name('depot.valider');
 Route::post('/rejet-depot',[DepotController::class,'rejeterDepot'])->name('depot.rejeter');
+// Admin: édition des paramètres (ex: COMM)
+Route::get('/admin/parametres/{code}', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
+Route::post('/admin/parametres/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');
