@@ -9,7 +9,6 @@ return new class extends Migration {
     {
         Schema::create('categorie_cadeau', function (Blueprint $table) {
             $table->increments('id_categorie_cadeau');
-            $table->string('nom', 50);
             $table->string('libelle', 100)->nullable();
         });
     }
