@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccueilController;
+use App\Http\Controllers\DepotController;
 
 // Landing page redirects to login
 Route::get('/',function () {
@@ -21,3 +22,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // User home
 Route::get('/accueil', [AccueilController::class, 'index'])->name('utilisateur.accueil');
+
+//Deposit page
+Route::get('/deposer', [DepotController::class, 'showForm'])->name('depot.show');
+
+// Dépôt action
+Route::post('/depot', [DepotController::class, 'deposer'])->name('depot.store');
