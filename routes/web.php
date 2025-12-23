@@ -33,3 +33,7 @@ Route::middleware([CheckSession::class])->group(function () {
     // Dépôt action
     Route::post('/depot', [DepotController::class, 'deposer'])->name('depot.store');
 });
+
+Route::get('/validation-depot',[DepotController::class,'showValidation'])->name('depot.en-attente.list');
+Route::post('/validation-depot',[DepotController::class,'validerDepot'])->name('depot.valider');
+Route::post('/rejet-depot',[DepotController::class,'rejeterDepot'])->name('depot.rejeter');
