@@ -34,6 +34,6 @@ Route::middleware([CheckSession::class])->group(function () {
     Route::post('/depot', [DepotController::class, 'deposer'])->name('depot.store');
 });
 
-Route::get('validation-depot',[DepotController::class,'showValidation'])->name('depot.validation');
-Route::post('validation-depot',[DepotController::class,'validerDepot'])->name('depot.valider');
-Route::post('rejet-depot',[DepotController::class,'rejeterDepot'])->name('depot.rejeter');
+Route::get('/validation-depot',[DepotController::class,'showValidation'])->name('depot.en-attente.list');
+Route::post('/validation-depot',[DepotController::class,'validerDepot'])->name('depot.valider');
+Route::post('/rejet-depot',[DepotController::class,'rejeterDepot'])->name('depot.rejeter');
