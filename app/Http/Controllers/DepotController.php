@@ -17,14 +17,10 @@ class DepotController extends Controller
 {
     public function showForm()
     {
-        // Vérifier l'utilisateur connecté
-        
         return view('utilisateur.form-depot');
     }
     public function deposer(DepotRequest $request)
     {
-        // Vérifier l'utilisateur connecté
-        
         $idUtilisateur = Session::get('id_utilisateur');
 
         $data = $request->validated();
