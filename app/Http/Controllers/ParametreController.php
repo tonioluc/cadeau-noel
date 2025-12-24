@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Parametre;
 use App\Models\HistoriqueParametre;
-use Illuminate\Http\Request;
 use App\Http\Requests\UpdateParametreRequest;
 use Illuminate\Support\Facades\DB;
 

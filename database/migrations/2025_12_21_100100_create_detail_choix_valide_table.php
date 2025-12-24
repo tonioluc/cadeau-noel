@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->increments('id_detail');
             $table->unsignedInteger('id_choix');
             $table->unsignedInteger('id_cadeau');
-            $table->enum('type_enfant', ['FILLE', 'GARÇON', 'NEUTRE']);
+            $table->enum('type_enfant', ['FILLE', 'GARÇON']);
             $table->integer('numero_enfant');
 
             $table->unique(['id_choix', 'type_enfant', 'numero_enfant']);

@@ -74,7 +74,6 @@ CREATE TABLE historique_parametres (
 -- Table categorie_cadeau
 CREATE TABLE categorie_cadeau (
     id_categorie_cadeau INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL,
     libelle VARCHAR(100)
 );
 
