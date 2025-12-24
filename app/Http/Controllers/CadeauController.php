@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ValidateNombreEnfants;
 use App\Models\Cadeau;
 use App\Models\CategorieCadeau;
+use App\Models\Utilisateur;
 use Illuminate\Http\Request;
 
 class CadeauController extends Controller
@@ -80,11 +81,14 @@ class CadeauController extends Controller
         $nbrGarcons = session('nbrGarcons', 0);
         $suggestionsFilles = collect(session('suggestions_filles', []))->map(fn($c) => Cadeau::with('categorie')->find($c['id_cadeau']));
         $suggestionsGarcons = collect(session('suggestions_garcons', []))->map(fn($c) => Cadeau::with('categorie')->find($c['id_cadeau']));
+        $idUtilisateur = session('id_utilisateur');
+        $utilisateur = Utilisateur::find($idUtilisateur);
 
         // Calculer le total
         $total = $suggestionsFilles->sum('prix') + $suggestionsGarcons->sum('prix');
 
         return view('utilisateur.liste-cadeaux-suggeres', compact(
+            'utilisateur',
             'nbrFilles',
             'nbrGarcons',
             'suggestionsFilles',

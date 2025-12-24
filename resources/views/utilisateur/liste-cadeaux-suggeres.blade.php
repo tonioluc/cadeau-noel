@@ -1,3 +1,10 @@
+<?php 
+$solde = $utilisateur->solde;
+$resteSolde = $solde - $total;
+?>
+<p>
+    <strong>Votre solde :</strong> {{ number_format($utilisateur->solde, 2, ',', ' ') }} Ar
+</p>
 <h1>Cadeaux suggérés pour vos enfants</h1>
 
 <p>
@@ -85,10 +92,21 @@
     {{-- Résumé --}}
     <h3>Résumé</h3>
     <p><strong>Total :</strong> {{ number_format($total, 2, ',', ' ') }} Ar</p>
+    @if ($resteSolde < 0)
+        <div style="color: red; margin-top: 1em;">
+            <strong>Reste de votre solde :</strong> {{ number_format($resteSolde, 2, ',', ' ') }} Ar
+            <br>
+            <a href="{{ route('depot.show') }}">Cliquez ici pour faire un dépôt</a>
+        </div>
+    @else
+        <div style="margin-top: 1em;">
+            <strong>Reste de votre solde :</strong> {{ number_format($resteSolde, 2, ',', ' ') }} Ar
+        </div>
+        <button type="submit" name="action" value="valider" formaction="{{ route('utilisateur.valider-cadeaux') }}">Valider ce choix</button>
+    @endif
 
     <div style="margin-top: 1em;">
         <button type="submit" name="action" value="echanger">Échanger les cadeaux sélectionnés</button>
-        <button type="submit" name="action" value="valider" formaction="{{ route('utilisateur.valider-cadeaux') }}">Valider ce choix</button>
     </div>
 </form>
 
