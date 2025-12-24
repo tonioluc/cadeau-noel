@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ValidateNombreEnfants;
 use App\Models\Cadeau;
 use App\Models\CategorieCadeau;
+use App\Models\ChoixValide;
+use App\Models\DetailChoixValide;
 use App\Models\Utilisateur;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CadeauController extends Controller
@@ -161,10 +164,23 @@ class CadeauController extends Controller
         return $this->afficherSuggestions()->with('success', 'Cadeaux échangés avec succès !');
     }
 
+    function saveToDetailChoixValide($nbrEnfants, $suggestions, $typeEnfant, $idChoixValide)
+    {
+        for ($i=1; $i <= $nbrEnfants; $i++) { 
+            DetailChoixValide::create([
+                'id_cadeau' => $suggestions[$i-1]['id_cadeau'],
+                'type_enfant' => $typeEnfant,
+                'id_choix' => $idChoixValide,
+                'numero_enfant' => $i,
+            ]);
+        }
+        
+    }
+
     /**
      * Valide le choix des cadeaux et enregistre la sélection.
      */
-    public function validerCadeaux(Request $request)
+    public function validerCadeaux()
     {
         $suggestionsFilles = session('suggestions_filles', []);
         $suggestionsGarcons = session('suggestions_garcons', []);
@@ -174,13 +190,43 @@ class CadeauController extends Controller
                 ->withErrors(['global' => 'Aucun cadeau à valider. Veuillez recommencer.']);
         }
 
-        // TODO: Enregistrer le choix validé dans la base de données (table choix_valide, detail_choix_valide)
-        // Pour l'instant, on simule la validation
+        $idUtilisateur = session('id_utilisateur');
+        $utilisateur = Utilisateur::find($idUtilisateur);
+        $total = collect($suggestionsFilles)->sum('prix') + collect($suggestionsGarcons)->sum('prix');
+        if ($utilisateur->solde < $total) {
+            return redirect()->route('utilisateur.accueil')
+                ->withErrors(['global' => 'Solde insuffisant pour valider ces cadeaux.']);
+        }
+        DB::beginTransaction();
+        try {
+            // Débiter le solde de l'utilisateur
+            $utilisateur->solde -= $total;
+            $utilisateur->save();
 
+            // Enregistrer les cadeaux choisis
+            $choixValide = ChoixValide::create([
+                'id_utilisateur' => $idUtilisateur,
+                'montant_total' => $total,
+                'nbr_fille' => count($suggestionsFilles),
+                'nbr_garcon' => count($suggestionsGarcons),
+            ]);
+
+            $nbrFilles = session('nbrFilles', 0);
+            $nbrGarcons = session('nbrGarcons', 0);
+
+            $this->saveToDetailChoixValide($nbrGarcons, $suggestionsGarcons, 'GARCON', $choixValide->id_choix);
+            $this->saveToDetailChoixValide($nbrFilles, $suggestionsFilles, 'FILLE', $choixValide->id_choix);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('utilisateur.form-entrer-nbr-enfants')
+                ->withErrors(['global' => 'Erreur lors de la validation des cadeaux : ' . $e->getMessage()]);
+        }
         // Nettoyer la session
         session()->forget(['nbrFilles', 'nbrGarcons', 'suggestions_filles', 'suggestions_garcons']);
 
-        return redirect()->route('utilisateur.accueil')
+        return redirect()->route('utilisateur.form-entrer-nbr-enfants')
             ->with('success', 'Votre choix de cadeaux a été validé avec succès !');
     }
 }
