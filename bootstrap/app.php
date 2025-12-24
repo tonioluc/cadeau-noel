@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Aliases personnalisés
         $middleware->alias([
             'check.session' => App\Http\Middleware\CheckSession::class,
+            'check.admin.session' => App\Http\Middleware\CheckAdminSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

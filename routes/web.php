@@ -28,16 +28,23 @@ Route::middleware('check.session')->group(function () {
     Route::post('/valider-cadeaux', [CadeauController::class, 'validerCadeaux'])->name('utilisateur.valider-cadeaux');
 });
 
-Route::prefix('admin/cadeaux')->group(function () {
-    Route::get('/', [AdminCadeauController::class, 'index'])->name('admin.cadeaux.index');
-    Route::get('/create', [AdminCadeauController::class, 'create'])->name('admin.cadeaux.create');
-    Route::post('/', [AdminCadeauController::class, 'store'])->name('admin.cadeaux.store');
-    Route::get('/{id}/edit', [AdminCadeauController::class, 'edit'])->name('admin.cadeaux.edit');
-    Route::put('/{id}', [AdminCadeauController::class, 'update'])->name('admin.cadeaux.update');
-    Route::delete('/{id}', [AdminCadeauController::class, 'destroy'])->name('admin.cadeaux.destroy');
+Route::middleware('check.admin.session')->prefix('admin')->group(function () {
+    Route::get('/accueil', [AccueilController::class, 'adminIndex'])->name('admin.accueil');
+    Route::prefix('cadeaux')->group(function () {
+        Route::get('/', [AdminCadeauController::class, 'index'])->name('admin.cadeaux.index');
+        Route::get('/create', [AdminCadeauController::class, 'create'])->name('admin.cadeaux.create');
+        Route::post('/', [AdminCadeauController::class, 'store'])->name('admin.cadeaux.store');
+        Route::get('/{id}/edit', [AdminCadeauController::class, 'edit'])->name('admin.cadeaux.edit');
+        Route::put('/{id}', [AdminCadeauController::class, 'update'])->name('admin.cadeaux.update');
+        Route::delete('/{id}', [AdminCadeauController::class, 'destroy'])->name('admin.cadeaux.destroy');
+    });
+    Route::prefix('depot')->group(function () {
+        Route::get('/validation', [DepotController::class, 'showValidation'])->name('depot.en-attente.list');
+        Route::post('/validation', [DepotController::class, 'validerDepot'])->name('depot.valider');
+        Route::post('/rejet', [DepotController::class, 'rejeterDepot'])->name('depot.rejeter');
+    });
+    Route::prefix('parametres')->group(function () {
+        Route::get('/{code}', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
+        Route::post('/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');
+    });
 });
-Route::get('/validation-depot', [DepotController::class, 'showValidation'])->name('depot.en-attente.list');
-Route::post('/validation-depot', [DepotController::class, 'validerDepot'])->name('depot.valider');
-Route::post('/rejet-depot', [DepotController::class, 'rejeterDepot'])->name('depot.rejeter');
-Route::get('/admin/parametres/{code}', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
-Route::post('/admin/parametres/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');

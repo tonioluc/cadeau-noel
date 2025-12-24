@@ -13,4 +13,11 @@ class AccueilController extends Controller
             'utilisateur' => Utilisateur::findOrFail(session('id_utilisateur')),
         ]);
     }
+
+    public function adminIndex()
+    {
+        return view('admin.accueil', [
+            'utilisateur' => Utilisateur::findOrFail(session('id_utilisateur')),
+        ]);
+    }
 }

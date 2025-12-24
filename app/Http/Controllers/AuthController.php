@@ -44,7 +44,11 @@ class AuthController extends Controller
 
         if ($user && Hash::check($data['mot_de_passe'], $user->mot_de_passe)) {
             Session::put('id_utilisateur', $user->id_utilisateur);
-            return redirect()->route('utilisateur.accueil');
+            if (session('id_utilisateur') == 1) {
+                return redirect()->route('admin.accueil');
+            }else{
+                return redirect()->route('utilisateur.accueil');
+            }
         }
 
         return back()
