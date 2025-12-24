@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\DepotController;
 use App\Http\Controllers\ParametreController;
+use App\Http\Controllers\AdminCadeauController;
 use App\Http\Controllers\CadeauController;
 use App\Http\Middleware\CheckSession;
 
@@ -51,3 +52,13 @@ Route::post('/rejet-depot',[DepotController::class,'rejeterDepot'])->name('depot
 // Admin: édition des paramètres (ex: COMM)
 Route::get('/admin/parametres/{code}', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
 Route::post('/admin/parametres/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');
+
+// Admin Cadeaux CRUD
+Route::prefix('admin/cadeaux')->group(function () {
+    Route::get('/', [AdminCadeauController::class, 'index'])->name('admin.cadeaux.index');
+    Route::get('/create', [AdminCadeauController::class, 'create'])->name('admin.cadeaux.create');
+    Route::post('/', [AdminCadeauController::class, 'store'])->name('admin.cadeaux.store');
+    Route::get('/{id}/edit', [AdminCadeauController::class, 'edit'])->name('admin.cadeaux.edit');
+    Route::put('/{id}', [AdminCadeauController::class, 'update'])->name('admin.cadeaux.update');
+    Route::delete('/{id}', [AdminCadeauController::class, 'destroy'])->name('admin.cadeaux.destroy');
+});
