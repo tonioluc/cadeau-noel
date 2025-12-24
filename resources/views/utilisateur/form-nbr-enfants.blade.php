@@ -9,6 +9,11 @@
         </ul>
     </div>
 @endif
+@if (session('success'))
+    <div style="color: green; margin-bottom: 1em;">
+        {{ session('success') }}
+    </div>
+@endif
 
 <form method="POST" action="{{ route('utilisateur.suggerer-cadeaux') }}">
     @csrf
