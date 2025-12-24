@@ -7,7 +7,6 @@ use App\Http\Controllers\DepotController;
 use App\Http\Controllers\ParametreController;
 use App\Http\Controllers\AdminCadeauController;
 use App\Http\Controllers\CadeauController;
-use App\Http\Middleware\CheckSession;
 
 // Landing page redirects to login
 Route::get('/',function () {
@@ -24,7 +23,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 
 // Routes protégées par session
-Route::middleware([CheckSession::class])->group(function () {
+Route::middleware('check.session')->group(function () {
     
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // User home

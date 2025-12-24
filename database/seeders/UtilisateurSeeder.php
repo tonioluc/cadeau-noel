@@ -15,9 +15,16 @@ class UtilisateurSeeder extends Seeder
     {
         // Create default user User1 with password 'mdp'
         Utilisateur::updateOrCreate(
+            ['nom' => 'admin'],
+            [
+            'mot_de_passe' => Hash::make('admin'),
+            ]
+        );
+
+        Utilisateur::updateOrCreate(
             ['nom' => 'User1'],
             [
-                'mot_de_passe' => Hash::make('mdp'),
+            'mot_de_passe' => Hash::make('mdp'),
             ]
         );
     }
