@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\DepotController;
 use App\Http\Controllers\ParametreController;
+use App\Http\Controllers\CadeauController;
 use App\Http\Middleware\CheckSession;
 
 // Landing page redirects to login
@@ -34,7 +35,14 @@ Route::middleware([CheckSession::class])->group(function () {
     // Dépôt action
     Route::post('/depot', [DepotController::class, 'deposer'])->name('depot.store');
 
-    // 
+    // afficher la formulaire pour générer des cadeaux
+    Route::get('/form-nombre-enfants', [CadeauController::class, 'showForm'])->name('utilisateur.form-entrer-nbr-enfants');
+    // suggérer des cadeaux en fonction du nombre d'enfants
+    Route::post('/suggestion-cadeaux', [CadeauController::class, 'suggererCadeaux'])->name('utilisateur.suggerer-cadeaux');
+    // échanger des cadeaux sélectionnés
+    Route::post('/echanger-cadeaux', [CadeauController::class, 'echangerCadeaux'])->name('utilisateur.echanger-cadeaux');
+    // valider le choix des cadeaux
+    Route::post('/valider-cadeaux', [CadeauController::class, 'validerCadeaux'])->name('utilisateur.valider-cadeaux');
 });
 
 Route::get('/validation-depot',[DepotController::class,'showValidation'])->name('depot.en-attente.list');
