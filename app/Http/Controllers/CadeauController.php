@@ -93,6 +93,23 @@ class CadeauController extends Controller
         ));
     }
 
+    private function echangerCadeauxPourCategorie(&$suggestions, $categorieIds, &$idsExclus, $indices)
+        {
+            foreach ($indices as $index) {
+                if (isset($suggestions[$index])) {
+                    $nouveauCadeau = Cadeau::whereIn('id_categorie_cadeau', $categorieIds)
+                        ->whereNotIn('id_cadeau', $idsExclus)
+                        ->inRandomOrder()
+                        ->first();
+
+                    if ($nouveauCadeau) {
+                        $suggestions[$index] = $nouveauCadeau->toArray();
+                        $idsExclus[] = $nouveauCadeau->id_cadeau;
+                    }
+                }
+            }
+        }
+
     /**
      * Échange les cadeaux sélectionnés par de nouveaux cadeaux aléatoires.
      */
@@ -116,40 +133,20 @@ class CadeauController extends Controller
             ->toArray();
 
         // Échanger les cadeaux des filles sélectionnées
-        foreach ($echangerFilles as $index) {
-            if (isset($suggestionsFilles[$index])) {
-                $nouveauCadeau = Cadeau::whereIn('id_categorie_cadeau', [
-                    $categorieFille->id_categorie_cadeau,
-                    $categorieNeutre->id_categorie_cadeau,
-                ])
-                    ->whereNotIn('id_cadeau', $idsExclus)
-                    ->inRandomOrder()
-                    ->first();
-
-                if ($nouveauCadeau) {
-                    $suggestionsFilles[$index] = $nouveauCadeau->toArray();
-                    $idsExclus[] = $nouveauCadeau->id_cadeau;
-                }
-            }
-        }
+        $this->echangerCadeauxPourCategorie(
+            $suggestionsFilles,
+            [$categorieFille->id_categorie_cadeau, $categorieNeutre->id_categorie_cadeau],
+            $idsExclus,
+            $echangerFilles
+        );
 
         // Échanger les cadeaux des garçons sélectionnés
-        foreach ($echangerGarcons as $index) {
-            if (isset($suggestionsGarcons[$index])) {
-                $nouveauCadeau = Cadeau::whereIn('id_categorie_cadeau', [
-                    $categorieGarcon->id_categorie_cadeau,
-                    $categorieNeutre->id_categorie_cadeau,
-                ])
-                    ->whereNotIn('id_cadeau', $idsExclus)
-                    ->inRandomOrder()
-                    ->first();
-
-                if ($nouveauCadeau) {
-                    $suggestionsGarcons[$index] = $nouveauCadeau->toArray();
-                    $idsExclus[] = $nouveauCadeau->id_cadeau;
-                }
-            }
-        }
+        $this->echangerCadeauxPourCategorie(
+            $suggestionsGarcons,
+            [$categorieGarcon->id_categorie_cadeau, $categorieNeutre->id_categorie_cadeau],
+            $idsExclus,
+            $echangerGarcons
+        );
 
         // Mettre à jour la session
         session([
