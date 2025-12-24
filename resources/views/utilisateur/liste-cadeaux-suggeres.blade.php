@@ -1,8 +1,8 @@
 <h1>Cadeaux suggérés pour vos enfants</h1>
 
 <p>
-    <strong>Nombre de filles :</strong> {{ $filles }} |
-    <strong>Nombre de garçons :</strong> {{ $garcons }}
+    <strong>Nombre de filles :</strong> {{ $nbrFilles }} |
+    <strong>Nombre de garçons :</strong> {{ $nbrGarcons }}
 </p>
 
 @if (session('success'))
@@ -25,7 +25,7 @@
     @csrf
 
     {{-- Cadeaux pour les filles --}}
-    @if ($filles > 0)
+    @if ($nbrFilles > 0)
         <h2>Cadeaux pour les filles</h2>
         <table border="1" cellpadding="10" cellspacing="0">
             <thead>
@@ -54,7 +54,7 @@
     @endif
 
     {{-- Cadeaux pour les garçons --}}
-    @if ($garcons > 0)
+    @if ($nbrGarcons > 0)
         <h2>Cadeaux pour les garçons</h2>
         <table border="1" cellpadding="10" cellspacing="0">
             <thead>

@@ -62,8 +62,8 @@ class CadeauController extends Controller
 
         // Stocker en session pour les échanges ultérieurs
         session([
-            'filles' => $nbrFilles,
-            'garcons' => $nbrGarcons,
+            'nbrFilles' => $nbrFilles,
+            'nbrGarcons' => $nbrGarcons,
             'suggestions_filles' => $suggestionsFilles,
             'suggestions_garcons' => $suggestionsGarcons,
         ]);
@@ -76,8 +76,8 @@ class CadeauController extends Controller
      */
     private function afficherSuggestions()
     {
-        $nbrFilles = session('filles', 0);
-        $nbrGarcons = session('garcons', 0);
+        $nbrFilles = session('nbrFilles', 0);
+        $nbrGarcons = session('nbrGarcons', 0);
         $suggestionsFilles = collect(session('suggestions_filles', []))->map(fn($c) => Cadeau::with('categorie')->find($c['id_cadeau']));
         $suggestionsGarcons = collect(session('suggestions_garcons', []))->map(fn($c) => Cadeau::with('categorie')->find($c['id_cadeau']));
 
@@ -85,8 +85,8 @@ class CadeauController extends Controller
         $total = $suggestionsFilles->sum('prix') + $suggestionsGarcons->sum('prix');
 
         return view('utilisateur.liste-cadeaux-suggeres', compact(
-            'filles',
-            'garcons',
+            'nbrFilles',
+            'nbrGarcons',
             'suggestionsFilles',
             'suggestionsGarcons',
             'total'
@@ -174,7 +174,7 @@ class CadeauController extends Controller
         // Pour l'instant, on simule la validation
 
         // Nettoyer la session
-        session()->forget(['filles', 'garcons', 'suggestions_filles', 'suggestions_garcons']);
+        session()->forget(['nbrFilles', 'nbrGarcons', 'suggestions_filles', 'suggestions_garcons']);
 
         return redirect()->route('utilisateur.accueil')
             ->with('success', 'Votre choix de cadeaux a été validé avec succès !');
