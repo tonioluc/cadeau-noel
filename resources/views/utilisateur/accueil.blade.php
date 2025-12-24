@@ -8,6 +8,11 @@
 </head>
 
 <body>
+    @if (session('success'))
+        <div style="color: green; margin-bottom: 1em;">
+            {{ session('success') }}
+        </div>
+    @endif
     <h1>Bonjour <strong><?php echo e($utilisateur->nom); ?></strong></h1>
     <p>Solde actuel : <strong><?php echo e($utilisateur->solde); ?> Ar</strong></p>
     <p><a href="<?php echo e(route('depot.show')); ?>">Faire un dépôt</a></p>
