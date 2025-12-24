@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ParametreSeeder::class,
             StatutDepotSeeder::class,
             CategorieCadeauSeeder::class,
+            CadeauSeeder::class,
         ]);
     }
 }
