@@ -73,7 +73,7 @@ class CadeauFactory extends Factory
             'nom' => $nom,
             'description' => $this->faker->sentence(10),
             'id_categorie_cadeau' => $categorie?->id_categorie_cadeau ?? 1,
-            'prix' => $this->faker->randomFloat(2, 10, 150),
+            'prix' => $this->faker->randomFloat(2, 20000, 1500000),
             'chemin_image' => null,
             'date_ajout' => now(),
         ];
