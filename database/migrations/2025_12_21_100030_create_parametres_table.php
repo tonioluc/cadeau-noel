@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('parametres', function (Blueprint $table) {
             $table->increments('id_parametre');
             $table->string('code', 50);
-            $table->text('description')->nullable();
+            $table->text('libelle')->nullable();
             $table->string('valeur', 255);
         });
     }

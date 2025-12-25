@@ -32,7 +32,6 @@ class AuthController extends Controller
 
         // Store the user's id in session
         Session::put('id_utilisateur', $user->id_utilisateur);
-
         return redirect()->route('utilisateur.accueil');
     }
 
@@ -58,7 +57,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Session::forget('id_utilisateur');
+        Session::forget(['id_utilisateur']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

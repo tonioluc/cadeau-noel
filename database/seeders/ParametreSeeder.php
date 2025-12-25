@@ -15,7 +15,7 @@ class ParametreSeeder extends Seeder
         Parametre::updateOrCreate(
             ['code' => 'COMM'],
             [
-                'description' => 'Commision en % que le site prend',
+                'libelle' => 'Commision en % que le site prend',
                 'valeur' => '10',
             ]
         );

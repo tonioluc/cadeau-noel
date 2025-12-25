@@ -1,48 +1,145 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edition paramètre - <?php echo e($parametre->code); ?></title>
-</head>
-<body>
-    <h1>Modifier le paramètre: <strong><?php echo e($parametre->code); ?></strong></h1>
+@extends('layouts.app')
 
-    <?php if(session('success')): ?>
-        <p style="color: green;"><?php echo e(session('success')); ?></p>
-    <?php endif; ?>
-    <?php if(session('info')): ?>
-        <p style="color: #555;"><?php echo e(session('info')); ?></p>
-    <?php endif; ?>
+@section('title', 'Modifier Paramètre - ' . $parametre->code)
 
-    <?php if($errors->any()): ?>
-        <div style="color: red;">
-            <ul>
-                <?php foreach($errors->all() as $error): ?>
-                    <li><?php echo e($error); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+@section('sidebar')
+    @include('partials.side-bar-admin')
+@endsection
 
-    <form method="POST" action="<?php echo e(route('admin.parametres.update', $parametre->code)); ?>">
-        <?php echo csrf_field(); ?>
-        <div>
-            <label>Code</label>
-            <input type="text" value="<?php echo e($parametre->code); ?>" disabled>
+@section('content')
+<div class="min-h-screen py-8">
+    <div class="max-w-2xl mx-auto px-4">
+        <!-- En-tête -->
+        <div class="mb-8">
+            <a href="{{ route('admin.parametres.index') }}" class="inline-flex items-center text-sauge hover:text-vert-foret transition-colors mb-4">
+                <i class="fa-solid fa-arrow-left mr-2"></i>
+                Retour à la liste
+            </a>
+            <h1 class="text-3xl font-bold text-anthracite font-mountains">
+                <i class="fa-solid fa-pen-to-square text-rose-corail mr-3"></i>
+                Modifier le Paramètre
+            </h1>
+            <p class="text-gray-600 mt-2">Code : <strong class="text-anthracite">{{ $parametre->code }}</strong></p>
         </div>
-        <div style="margin-top: 0.5rem;">
-            <label>Valeur actuelle</label>
-            <input type="text" value="<?php echo e($parametre->valeur); ?>" disabled>
+
+        <!-- Messages flash -->
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center">
+                <i class="fa-solid fa-check-circle mr-3"></i>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('info'))
+            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-lg mb-6 flex items-center">
+                <i class="fa-solid fa-info-circle mr-3"></i>
+                {{ session('info') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+                <div class="flex items-center mb-2">
+                    <i class="fa-solid fa-exclamation-triangle mr-3"></i>
+                    <strong>Erreurs de validation</strong>
+                </div>
+                <ul class="list-disc list-inside ml-6">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Formulaire -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-vert-clair/30">
+            <form method="POST" action="{{ route('admin.parametres.update', $parametre->code) }}">
+                @csrf
+                @method('PUT')
+
+                <!-- Code (lecture seule) -->
+                <div class="mb-6">
+                    <label class="block text-anthracite font-semibold mb-2">
+                        <i class="fa-solid fa-code mr-2 text-sauge"></i>
+                        Code
+                    </label>
+                    <input type="text" 
+                           value="{{ $parametre->code }}" 
+                           disabled
+                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed">
+                    <p class="text-sm text-gray-500 mt-1">Le code ne peut pas être modifié</p>
+                </div>
+
+                <!-- Libellé (lecture seule) -->
+                <div class="mb-6">
+                    <label class="block text-anthracite font-semibold mb-2">
+                        <i class="fa-solid fa-tag mr-2 text-sauge"></i>
+                        Libellé
+                    </label>
+                    <input type="text" 
+                           value="{{ $parametre->libelle }}" 
+                           disabled
+                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed">
+                </div>
+
+                <!-- Valeur actuelle -->
+                <div class="mb-6">
+                    <label class="block text-anthracite font-semibold mb-2">
+                        <i class="fa-solid fa-history mr-2 text-gray-400"></i>
+                        Valeur actuelle
+                    </label>
+                    <input type="text" 
+                           value="{{ $parametre->valeur }}" 
+                           disabled
+                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed">
+                </div>
+
+                <!-- Nouvelle valeur -->
+                <div class="mb-8">
+                    <label for="valeur" class="block text-anthracite font-semibold mb-2">
+                        <i class="fa-solid fa-pen mr-2 text-rose-corail"></i>
+                        Nouvelle valeur <span class="text-rose-corail">*</span>
+                    </label>
+                    <input type="text" 
+                           id="valeur"
+                           name="valeur" 
+                           value="{{ old('valeur', $parametre->valeur) }}"
+                           required
+                           class="w-full px-4 py-3 rounded-xl border-2 border-vert-clair focus:border-sauge focus:ring-2 focus:ring-sauge/20 transition-all outline-none @error('valeur') border-red-400 @enderror"
+                           placeholder="Entrez la nouvelle valeur">
+                    @error('valeur')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Boutons -->
+                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                    <a href="{{ route('admin.parametres.index') }}" 
+                       class="px-6 py-3 rounded-xl border-2 border-gray-300 text-gray-600 hover:bg-gray-100 transition-all flex items-center">
+                        <i class="fa-solid fa-times mr-2"></i>
+                        Annuler
+                    </a>
+                    <button type="submit" 
+                            class="px-8 py-3 bg-gradient-to-r from-sauge to-vert-foret text-white rounded-xl hover:shadow-lg transform hover:scale-105 transition-all flex items-center">
+                        <i class="fa-solid fa-save mr-2"></i>
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </form>
         </div>
-        <div style="margin-top: 0.5rem;">
-            <label>Nouvelle valeur</label>
-            <input name="valeur" type="text" value="<?php echo e(old('valeur', $parametre->valeur)); ?>" required>
+
+        <!-- Info historique -->
+        <div class="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-200">
+            <div class="flex items-start">
+                <i class="fa-solid fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                <div>
+                    <p class="text-blue-800 font-medium">Historique des modifications</p>
+                    <p class="text-blue-600 text-sm mt-1">
+                        Chaque modification de valeur est automatiquement enregistrée dans l'historique des paramètres avec la date et l'heure du changement.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div style="margin-top: 1rem;">
-            <button type="submit">Enregistrer</button>
-            <a href="<?php echo e(url()->previous()); ?>" style="margin-left: 0.5rem;">Annuler</a>
-        </div>
-    </form>
-</body>
-</html>
+    </div>
+</div>
+@endsection
