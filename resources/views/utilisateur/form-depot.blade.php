@@ -1,40 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+@section('title', 'Faire un dépôt')
 
-<body>
-    <?php if($errors->any()): ?>
-        <div style="color:red;">
-            <ul>
-                <?php foreach($errors->all() as $error): ?>
-                    <li><?php echo e($error); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-    <?php if(session('success')): ?>
-        <div style="color:green;">
-            <?php echo e(session('success')); ?>
-        </div>
-    <?php endif; ?>
-    <form action="<?php echo e(route('depot.store')); ?>" method="post">
-        <?php echo csrf_field(); ?>
-        <div>
-            <label for="montant">Montant du dépôt</label>
-            <input type="number" id="montant" name="montant" step="0.01" min="0.01" required>
-            <button type="submit">Déposer</button>
-        </div>
-    </form>
-    <p><a href="<?php echo e(route('utilisateur.accueil')); ?>">Revenir à l'accueil utilisateur</a></p>
-    <form method="POST" action="<?php echo e(route('logout')); ?>" style="margin-top: 1rem;">
-        <?php echo csrf_field(); ?>
-        <button type="submit">Se déconnecter</button>
-    </form>
-</body>
+@section('content')
+<style>
+    .content-bg {
+        background-image: url('{{ asset('images/fond-form-depot.png') }}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right center;
+    }
+</style>
 
-</html>
+<div class="content-bg min-h-[calc(100vh-12rem)] flex items-center justify-start p-6 pl-60">
+    <div class="w-full max-w-md mr-8">
+        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-10">
+            <div class="text-left mb-6">
+                <i class="fas fa-coins text-rose-corail text-4xl mb-2"></i>
+                <h1 class="text-3xl font-christmas font-bold text-anthracite mb-1">Faire un dépôt</h1>
+                <p class="text-vert-foret font-sans">Ajoutez des fonds à votre solde pour générer des cadeaux.</p>
+            </div>
+
+            @if ($errors->any())
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-red-500 mr-3 mt-1"></i>
+                        <ul class="list-disc list-inside text-red-700 font-sans">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <p class="text-green-700 font-sans">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            <form action="{{ route('depot.store') }}" method="POST" class="space-y-5">
+                @csrf
+
+                <div>
+                    <label for="montant" class="block text-vert-foret font-medium mb-2 font-sans">Montant du dépôt (Ar)</label>
+                    <input
+                        type="number"
+                        name="montant"
+                        id="montant"
+                        step="0.01"
+                        min="0.01"
+                        required
+                        value="{{ old('montant') }}"
+                        class="w-full px-4 py-3 rounded-lg border-2 border-vert-clair focus:border-rose-corail focus:outline-none transition-colors font-sans text-lg"
+                        placeholder="Ex: 10000"
+                    >
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-rose-corail hover:bg-[#e07b7d] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow font-sans text-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>Effectuer le dépôt
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-left">
+                <a href="{{ route('utilisateur.accueil') }}" class="text-vert-foret hover:underline font-sans">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

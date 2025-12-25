@@ -101,21 +101,21 @@ class CadeauController extends Controller
     }
 
     private function echangerCadeauxPourCategorie(&$suggestions, $categorieIds, &$idsExclus, $indices)
-        {
-            foreach ($indices as $index) {
-                if (isset($suggestions[$index])) {
-                    $nouveauCadeau = Cadeau::whereIn('id_categorie_cadeau', $categorieIds)
-                        ->whereNotIn('id_cadeau', $idsExclus)
-                        ->inRandomOrder()
-                        ->first();
+    {
+        foreach ($indices as $index) {
+            if (isset($suggestions[$index])) {
+                $nouveauCadeau = Cadeau::whereIn('id_categorie_cadeau', $categorieIds)
+                    ->whereNotIn('id_cadeau', $idsExclus)
+                    ->inRandomOrder()
+                    ->first();
 
-                    if ($nouveauCadeau) {
-                        $suggestions[$index] = $nouveauCadeau->toArray();
-                        $idsExclus[] = $nouveauCadeau->id_cadeau;
-                    }
+                if ($nouveauCadeau) {
+                    $suggestions[$index] = $nouveauCadeau->toArray();
+                    $idsExclus[] = $nouveauCadeau->id_cadeau;
                 }
             }
         }
+    }
 
     /**
      * Échange les cadeaux sélectionnés par de nouveaux cadeaux aléatoires.
@@ -166,15 +166,14 @@ class CadeauController extends Controller
 
     function saveToDetailChoixValide($nbrEnfants, $suggestions, $typeEnfant, $idChoixValide)
     {
-        for ($i=1; $i <= $nbrEnfants; $i++) { 
+        for ($i = 1; $i <= $nbrEnfants; $i++) {
             DetailChoixValide::create([
-                'id_cadeau' => $suggestions[$i-1]['id_cadeau'],
+                'id_cadeau' => $suggestions[$i - 1]['id_cadeau'],
                 'type_enfant' => $typeEnfant,
                 'id_choix' => $idChoixValide,
                 'numero_enfant' => $i,
             ]);
         }
-        
     }
 
     /**
@@ -220,8 +219,7 @@ class CadeauController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('utilisateur.form-entrer-nbr-enfants')
-                ->withErrors(['global' => 'Erreur lors de la validation des cadeaux : ' . $e->getMessage()]);
+            return redirect()->route('utilisateur.form-entrer-nbr-enfants')->withErrors(['global' => 'Erreur lors de la validation des cadeaux : ' . $e->getMessage()]);
         }
         // Nettoyer la session
         session()->forget(['nbrFilles', 'nbrGarcons', 'suggestions_filles', 'suggestions_garcons']);

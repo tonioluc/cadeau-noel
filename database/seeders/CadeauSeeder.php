@@ -17,44 +17,44 @@ class CadeauSeeder extends Seeder
 
         // Cadeaux pour filles
         $cadeauxFille = [
-            ['nom' => 'Poupée Barbie', 'prix' => 29.99],
-            ['nom' => 'Maison de poupée', 'prix' => 89.99],
-            ['nom' => 'Kit de maquillage enfant', 'prix' => 19.99],
-            ['nom' => 'Bracelet à perles', 'prix' => 14.99],
-            ['nom' => 'Licorne en peluche', 'prix' => 24.99],
-            ['nom' => 'Déguisement princesse', 'prix' => 34.99],
-            ['nom' => 'Journal intime', 'prix' => 12.99],
-            ['nom' => 'Kit de bijoux à créer', 'prix' => 22.99],
-            ['nom' => 'Peluche chat rose', 'prix' => 18.99],
-            ['nom' => 'Coffret de vernis à ongles', 'prix' => 15.99],
+            ['nom' => 'Poupée Barbie', 'prix' => 20000],
+            ['nom' => 'Maison de poupée', 'prix' => 80000],
+            ['nom' => 'Kit de maquillage enfant', 'prix' => 10000],
+            ['nom' => 'Bracelet à perles', 'prix' => 24000],
+            ['nom' => 'Licorne en peluche', 'prix' => 34000],
+            ['nom' => 'Déguisement princesse', 'prix' => 44000],
+            ['nom' => 'Journal intime', 'prix' => 20000],
+            ['nom' => 'Kit de bijoux à créer', 'prix' => 32000],
+            ['nom' => 'Peluche chat rose', 'prix' => 28000],
+            ['nom' => 'Coffret de vernis à ongles', 'prix' => 25000],
         ];
 
         // Cadeaux pour garçons
         $cadeauxGarcon = [
-            ['nom' => 'Voiture télécommandée', 'prix' => 49.99],
-            ['nom' => 'LEGO Technic', 'prix' => 79.99],
-            ['nom' => 'Ballon de football', 'prix' => 19.99],
-            ['nom' => 'Figurine superhéros', 'prix' => 24.99],
-            ['nom' => 'Drone pour enfant', 'prix' => 59.99],
-            ['nom' => 'Circuit de voitures', 'prix' => 44.99],
-            ['nom' => 'Robot programmable', 'prix' => 69.99],
-            ['nom' => 'Pistolet Nerf', 'prix' => 29.99],
-            ['nom' => 'Skateboard', 'prix' => 54.99],
-            ['nom' => 'Kit de dinosaures', 'prix' => 34.99],
+            ['nom' => 'Voiture télécommandée', 'prix' => 50000],
+            ['nom' => 'LEGO Technic', 'prix' => 80000],
+            ['nom' => 'Ballon de football', 'prix' => 20000],
+            ['nom' => 'Figurine superhéros', 'prix' => 34000],
+            ['nom' => 'Drone pour enfant', 'prix' => 70000],
+            ['nom' => 'Circuit de voitures', 'prix' => 54000],
+            ['nom' => 'Robot programmable', 'prix' => 90000],
+            ['nom' => 'Pistolet Nerf', 'prix' => 30000],
+            ['nom' => 'Skateboard', 'prix' => 64000],
+            ['nom' => 'Kit de dinosaures', 'prix' => 44000],
         ];
 
         // Cadeaux neutres
         $cadeauxNeutre = [
-            ['nom' => 'Puzzle 500 pièces', 'prix' => 14.99],
-            ['nom' => 'Jeu de société Monopoly', 'prix' => 29.99],
-            ['nom' => 'Livre d\'aventure', 'prix' => 12.99],
-            ['nom' => 'Console de jeux portable', 'prix' => 149.99],
-            ['nom' => 'Kit de peinture', 'prix' => 24.99],
-            ['nom' => 'Ukulélé', 'prix' => 39.99],
-            ['nom' => 'Tablette éducative', 'prix' => 99.99],
-            ['nom' => 'Jeu vidéo Mario Kart', 'prix' => 49.99],
-            ['nom' => 'Kit de magie', 'prix' => 29.99],
-            ['nom' => 'Télescope pour enfant', 'prix' => 59.99],
+            ['nom' => 'Puzzle 500 pièces', 'prix' => 24000],
+            ['nom' => 'Jeu de société Monopoly', 'prix' => 30000],
+            ['nom' => 'Livre d\'aventure', 'prix' => 20000],
+            ['nom' => 'Console de jeux portable', 'prix' => 140000],
+            ['nom' => 'Kit de peinture', 'prix' => 34000],
+            ['nom' => 'Ukulélé', 'prix' => 40000],
+            ['nom' => 'Tablette éducative', 'prix' => 110000],
+            ['nom' => 'Jeu vidéo Mario Kart', 'prix' => 50000],
+            ['nom' => 'Kit de magie', 'prix' => 30000],
+            ['nom' => 'Télescope pour enfant', 'prix' => 70000],
         ];
 
         foreach ($cadeauxFille as $cadeau) {
