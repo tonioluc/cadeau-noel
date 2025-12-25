@@ -7,13 +7,38 @@ use App\Models\CategorieCadeau;
 use App\Http\Requests\StoreCadeauRequest;
 use App\Http\Requests\UpdateCadeauRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
 
 class AdminCadeauController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cadeaux = Cadeau::with('categorie')->orderByDesc('id_cadeau')->paginate(15);
-        return view('admin.cadeaux-index', compact('cadeaux'));
+        $query = Cadeau::with('categorie');
+
+        // Recherche par nom
+        if ($request->filled('search')) {
+            $query->where('nom', 'like', '%' . $request->search . '%');
+        }
+
+        // Filtre par catégorie
+        if ($request->filled('categorie')) {
+            $query->where('id_categorie_cadeau', $request->categorie);
+        }
+
+        // Tri par prix
+        $triPrix = $request->input('tri_prix', 'desc');
+        if ($triPrix === 'asc') {
+            $query->orderBy('prix', 'asc');
+        } elseif ($triPrix === 'desc') {
+            $query->orderBy('prix', 'desc');
+        } else {
+            $query->orderByDesc('id_cadeau');
+        }
+
+        $cadeaux = $query->paginate(5)->withQueryString();
+        $categories = CategorieCadeau::orderBy('libelle')->get();
+
+        return view('admin.cadeaux-index', compact('cadeaux', 'categories'));
     }
 
     public function create()
