@@ -44,7 +44,11 @@ Route::middleware('check.admin.session')->prefix('admin')->group(function () {
         Route::post('/rejet', [DepotController::class, 'rejeterDepot'])->name('depot.rejeter');
     });
     Route::prefix('/parametres')->group(function () {
-        Route::get('/{code}', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
-        Route::post('/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');
+        Route::get('/', [ParametreController::class, 'index'])->name('admin.parametres.index');
+        Route::get('/create', [ParametreController::class, 'create'])->name('admin.parametres.create');
+        Route::post('/', [ParametreController::class, 'store'])->name('admin.parametres.store');
+        Route::get('/{code}/edit', [ParametreController::class, 'edit'])->name('admin.parametres.edit');
+        Route::put('/{code}', [ParametreController::class, 'update'])->name('admin.parametres.update');
+        Route::delete('/{code}', [ParametreController::class, 'destroy'])->name('admin.parametres.destroy');
     });
 });
