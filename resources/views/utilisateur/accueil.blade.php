@@ -62,11 +62,23 @@
                         <p class="text-anthracite font-sans font-bold text-3xl">{{ number_format($utilisateur->solde, 2, ',', ' ') }} Ar</p>
                     </div>
                 </div>
-                <a href="{{ route('depot.show') }}">
-                    <button class="bg-rose-corail hover:bg-anthracite text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 font-sans">
-                        <i class="fas fa-plus mr-2"></i>Ajouter
-                    </button>
-                </a>
+                <div class="flex gap-3">
+                    <a href="{{ route('utilisateur.historique-depots') }}">
+                        <button class="bg-anthracite hover:bg-rose-corail text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 font-sans">
+                            <i class="fas fa-list mr-2"></i>Mes dépôts
+                        </button>
+                    </a>
+                    <a href="{{ route('utilisateur.historique-choix') }}">
+                        <button class="bg-vert-foret hover:bg-anthracite text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 font-sans">
+                            <i class="fas fa-gifts mr-2"></i>Choix validés
+                        </button>
+                    </a>
+                    <a href="{{ route('depot.show') }}">
+                        <button class="bg-rose-corail hover:bg-anthracite text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 font-sans">
+                            <i class="fas fa-plus mr-2"></i>Ajouter
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
 

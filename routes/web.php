@@ -22,6 +22,9 @@ Route::middleware('check.session')->group(function () {
     Route::get('/accueil', [AccueilController::class, 'index'])->name('utilisateur.accueil');
     Route::get('/deposer', [DepotController::class, 'showForm'])->name('depot.show');
     Route::post('/depot', [DepotController::class, 'deposer'])->name('depot.store');
+    Route::get('/depots/historique', [DepotController::class, 'historique'])->name('utilisateur.historique-depots');
+    Route::get('/choix/historique', [CadeauController::class, 'historiqueChoix'])->name('utilisateur.historique-choix');
+    Route::get('/choix/{id}', [CadeauController::class, 'detailChoix'])->name('utilisateur.detail-choix');
     Route::get('/form-nombre-enfants', [CadeauController::class, 'showForm'])->name('utilisateur.form-entrer-nbr-enfants');
     Route::post('/suggestion-cadeaux', [CadeauController::class, 'suggererCadeaux'])->name('utilisateur.suggerer-cadeaux');
     Route::post('/echanger-cadeaux', [CadeauController::class, 'echangerCadeaux'])->name('utilisateur.echanger-cadeaux');
@@ -42,6 +45,11 @@ Route::middleware('check.admin.session')->prefix('admin')->group(function () {
         Route::get('/validation', [DepotController::class, 'showValidation'])->name('depot.en-attente.list');
         Route::post('/validation', [DepotController::class, 'validerDepot'])->name('depot.valider');
         Route::post('/rejet', [DepotController::class, 'rejeterDepot'])->name('depot.rejeter');
+        Route::get('/historique', [DepotController::class, 'adminHistorique'])->name('admin.depots.historique');
+    });
+    Route::prefix('/choix')->group(function () {
+        Route::get('/historique', [AdminCadeauController::class, 'adminHistoriqueChoix'])->name('admin.choix.historique');
+        Route::get('/{id}', [AdminCadeauController::class, 'adminDetailChoix'])->name('admin.choix.detail');
     });
     Route::prefix('/parametres')->group(function () {
         Route::get('/', [ParametreController::class, 'index'])->name('admin.parametres.index');

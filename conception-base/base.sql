@@ -105,7 +105,7 @@ CREATE TABLE detail_choix_valide (
     id_detail INT AUTO_INCREMENT PRIMARY KEY,
     id_choix INT NOT NULL,
     id_cadeau INT NOT NULL,
-    type_enfant ENUM('FILLE', 'GARÇON', 'NEUTRE') NOT NULL,
+    type_enfant ENUM('FILLE', 'GARÇON') NOT NULL,
     numero_enfant INT NOT NULL,
     FOREIGN KEY (id_choix) REFERENCES choix_valide(id_choix),
     FOREIGN KEY (id_cadeau) REFERENCES cadeau(id_cadeau),

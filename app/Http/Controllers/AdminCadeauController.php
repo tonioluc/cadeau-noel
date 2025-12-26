@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Cadeau;
 use App\Models\CategorieCadeau;
+use App\Models\ChoixValide;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreCadeauRequest;
 use App\Http\Requests\UpdateCadeauRequest;
 use Illuminate\Support\Facades\File;
-use Illuminate\Http\Request;
 
 class AdminCadeauController extends Controller
 {
@@ -121,5 +122,40 @@ class AdminCadeauController extends Controller
         }
         $cadeau->delete();
         return redirect()->route('admin.cadeaux.index')->with('success', 'Cadeau supprimé avec succès.');
+    }
+
+    /**
+     * Admin: Historique des choix validés pour tous les utilisateurs.
+     */
+    public function adminHistoriqueChoix(Request $request)
+    {
+        $tri = strtolower($request->query('tri', 'desc')) === 'asc' ? 'asc' : 'desc';
+        $userId = $request->query('user');
+
+        $choix = ChoixValide::with(['utilisateur'])
+            ->withCount('details')
+            ->when($userId, fn($q) => $q->where('id_utilisateur', (int) $userId))
+            ->orderBy('date_choix', $tri)
+            ->get();
+
+        return view('admin.historique-choix', [
+            'choix' => $choix,
+            'currentTri' => $tri,
+            'currentUser' => $userId,
+        ]);
+    }
+
+    /**
+     * Admin: Détail d'un choix validé (sans restriction d'utilisateur).
+     */
+    public function adminDetailChoix($id)
+    {
+        $choix = ChoixValide::with(['utilisateur', 'details.cadeau.categorie'])
+            ->where('id_choix', $id)
+            ->firstOrFail();
+
+        return view('admin.detail-choix', [
+            'choix' => $choix,
+        ]);
     }
 }

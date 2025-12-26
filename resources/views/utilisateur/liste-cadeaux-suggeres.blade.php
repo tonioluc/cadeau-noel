@@ -161,8 +161,13 @@
                     </div>
                     <div class="text-right">
                         @if ($resteSolde < 0)
-                            <p class="text-red-600 font-semibold"><i class="fas fa-exclamation-triangle mr-2"></i>Solde insuffisant : {{ number_format($resteSolde, 2, ',', ' ') }} Ar</p>
-                            <a href="{{ route('depot.show') }}" class="text-rose-corail font-semibold"><i class="fas fa-piggy-bank mr-2"></i>Faire un dépôt</a>
+                        <p class="text-red-600 font-semibold"><i class="fas fa-exclamation-triangle mr-2"></i>Solde insuffisant : {{ number_format($resteSolde, 2, ',', ' ') }} Ar</p>
+                        <a href="{{ route('depot.show') }}" class="text-rose-corail font-semibold"><i class="fas fa-piggy-bank mr-2"></i>Faire un dépôt</a>
+                        <div class="mt-3 space-x-3">
+                            <button type="submit" name="action" value="echanger" class="bg-vert-foret text-white font-semibold py-2 px-4 rounded">
+                                <i class="fas fa-exchange-alt mr-2"></i>Échanger les sélectionnés
+                            </button>
+                        </div>
                         @else
                             <p class="text-vert-foret"><i class="fas fa-check-circle text-vert-foret mr-2"></i>Reste du solde après validation : <strong>{{ number_format($resteSolde, 2, ',', ' ') }} Ar</strong></p>
                             <div class="mt-3 space-x-3">
