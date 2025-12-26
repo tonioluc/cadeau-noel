@@ -19,6 +19,44 @@ class DepotController extends Controller
     {
         return view('utilisateur.form-depot');
     }
+    public function historique(Request $request)
+    {
+        $idUtilisateur = Session::get('id_utilisateur');
+
+        // Filters
+        $statutLibelle = $request->query('statut'); // ex: En attente | Valide | Rejete
+        $triDirection = strtolower($request->query('tri', 'desc')) === 'asc' ? 'asc' : 'desc';
+        $par = $request->query('par', 'demande'); // demande|credit
+        $sortField = $par === 'credit' ? 'montant_credit' : 'montant_demande';
+
+        // Base query for current user
+        $query = Depot::with(['statut', 'historiques'])
+            ->where('id_utilisateur', $idUtilisateur);
+
+        // Apply status filter if provided and valid
+        if ($statutLibelle && $statutLibelle !== 'Tous') {
+            $statutId = StatutDepot::where('libelle', $statutLibelle)->value('id_statut_depot');
+            if ($statutId) {
+                $query->where('id_statut_depot', $statutId);
+            }
+        }
+
+        // Apply sorting by amount
+        $query->orderBy($sortField, $triDirection);
+
+        $depots = $query->get();
+
+        // All statuses for filter dropdown
+        $statuts = StatutDepot::all();
+
+        return view('utilisateur.historique-depots', [
+            'depots' => $depots,
+            'statuts' => $statuts,
+            'currentStatut' => $statutLibelle ?: 'Tous',
+            'currentTri' => $triDirection,
+            'currentPar' => $par,
+        ]);
+    }
     public function deposer(DepotRequest $request)
     {
         $idUtilisateur = Session::get('id_utilisateur');
@@ -176,5 +214,39 @@ class DepotController extends Controller
         }
 
         return redirect()->route('depot.en-attente.list')->with('success', 'Dépôt refusé avec succès.');
+    }
+
+    /**
+     * Admin: Historique des dépôts de tous les utilisateurs, avec filtres.
+     */
+    public function adminHistorique(Request $request)
+    {
+        $statutLibelle = $request->query('statut'); // En attente | Valide | Rejete | Tous
+        $userId = $request->query('user'); // id_utilisateur optionnel
+        $triDirection = strtolower($request->query('tri', 'desc')) === 'asc' ? 'asc' : 'desc';
+        $par = $request->query('par', 'demande'); // demande|credit
+        $sortField = $par === 'credit' ? 'montant_credit' : 'montant_demande';
+
+        $query = Depot::with(['statut', 'utilisateur'])
+            ->when($userId, fn($q) => $q->where('id_utilisateur', (int) $userId));
+
+        if ($statutLibelle && $statutLibelle !== 'Tous') {
+            $statutId = StatutDepot::where('libelle', $statutLibelle)->value('id_statut_depot');
+            if ($statutId) {
+                $query->where('id_statut_depot', $statutId);
+            }
+        }
+
+        $depots = $query->orderBy($sortField, $triDirection)->get();
+        $statuts = StatutDepot::all();
+
+        return view('admin.historique-depots', [
+            'depots' => $depots,
+            'statuts' => $statuts,
+            'currentStatut' => $statutLibelle ?: 'Tous',
+            'currentTri' => $triDirection,
+            'currentPar' => $par,
+            'currentUser' => $userId,
+        ]);
     }
 }

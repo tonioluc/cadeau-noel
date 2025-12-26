@@ -116,6 +116,14 @@ $utilisateur = \App\Models\Utilisateur::find(session('id_utilisateur'));
                     <i class="fas fa-gift text-xl {{ request()->routeIs('utilisateur.form-entrer-nbr-enfants') || request()->routeIs('utilisateur.suggerer-cadeaux') ? 'text-white' : 'text-rose-corail' }}"></i>
                     <span class="font-sans font-medium group-hover:text-white">Obtenir des cadeaux</span>
                 </a>
+                <a href="{{ route('utilisateur.historique-depots') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-vert-clair/20 transition-colors group {{ request()->routeIs('utilisateur.historique-depots') ? 'bg-rose-corail text-white' : 'text-white/80' }}">
+                    <i class="fas fa-list text-xl {{ request()->routeIs('utilisateur.historique-depots') ? 'text-white' : 'text-rose-corail' }}"></i>
+                    <span class="font-sans font-medium group-hover:text-white">Historique des dépôts</span>
+                </a>
+                <a href="{{ route('utilisateur.historique-choix') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-vert-clair/20 transition-colors group {{ request()->routeIs('utilisateur.historique-choix') ? 'bg-rose-corail text-white' : 'text-white/80' }}">
+                    <i class="fas fa-gifts text-xl {{ request()->routeIs('utilisateur.historique-choix') ? 'text-white' : 'text-rose-corail' }}"></i>
+                    <span class="font-sans font-medium group-hover:text-white">Historique des choix</span>
+                </a>
             </nav>
             @endif
         </aside>

@@ -1,0 +1,59 @@
+@extends('layouts.app')
+
+@section('title', 'Historique des choix validés')
+
+@section('content')
+<div class="max-w-6xl mx-auto py-8">
+    <h1 class="text-3xl font-bold text-anthracite mb-6">Historique de vos choix validés</h1>
+
+    <form method="GET" action="{{ route('utilisateur.historique-choix') }}" class="bg-vert-clair p-4 rounded-xl shadow mb-6">
+        <div class="flex items-end gap-4">
+            <div>
+                <label class="block text-vert-foret text-sm font-sans mb-1">Ordre</label>
+                <select name="tri" class="border rounded-lg px-3 py-2">
+                    <option value="desc" {{ ($currentTri ?? 'desc') === 'desc' ? 'selected' : '' }}>Plus récent d'abord</option>
+                    <option value="asc" {{ ($currentTri ?? 'desc') === 'asc' ? 'selected' : '' }}>Plus ancien d'abord</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="bg-rose-corail hover:bg-anthracite text-white font-semibold py-2 px-4 rounded-lg">Appliquer</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="bg-white rounded-xl shadow overflow-x-auto">
+        <table class="min-w-full">
+            <thead class="bg-vert-clair">
+                <tr>
+                    <th class="text-left px-4 py-3 text-vert-foret">#</th>
+                    <th class="text-left px-4 py-3 text-vert-foret">Date</th>
+                    <th class="text-left px-4 py-3 text-vert-foret">Montant total</th>
+                    <th class="text-left px-4 py-3 text-vert-foret">Nombre de cadeaux</th>
+                    <th class="text-left px-4 py-3 text-vert-foret">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($choix as $cv)
+                    <tr class="border-t">
+                        <td class="px-4 py-3">{{ $cv->id_choix }}</td>
+                        <td class="px-4 py-3">{{ optional($cv->date_choix)->format('d/m/Y H:i') ?? '—' }}</td>
+                        <td class="px-4 py-3">{{ number_format($cv->montant_total, 2, ',', ' ') }} Ar</td>
+                        <td class="px-4 py-3">{{ $cv->details_count }}</td>
+                        <td class="px-4 py-3">
+                            <a href="{{ route('utilisateur.detail-choix', ['id' => $cv->id_choix]) }}" class="text-rose-corail hover:underline">Voir le détail</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-4 py-6 text-center text-vert-foret">Aucun choix validé pour le moment.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ route('utilisateur.accueil') }}" class="text-vert-foret hover:underline">← Retour à l'accueil</a>
+    </div>
+</div>
+@endsection
