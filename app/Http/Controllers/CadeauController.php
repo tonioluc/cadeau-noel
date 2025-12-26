@@ -9,6 +9,7 @@ use App\Models\ChoixValide;
 use App\Models\DetailChoixValide;
 use App\Models\Utilisateur;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class CadeauController extends Controller
@@ -227,4 +228,42 @@ class CadeauController extends Controller
         return redirect()->route('utilisateur.form-entrer-nbr-enfants')
             ->with('success', 'Votre choix de cadeaux a été validé avec succès !');
     }
+
+    /**
+     * Affiche l'historique des choix validés de l'utilisateur connecté.
+     */
+    public function historiqueChoix(Request $request)
+    {
+        $idUtilisateur = Session::get('id_utilisateur');
+
+        $tri = strtolower($request->query('tri', 'desc')) === 'asc' ? 'asc' : 'desc';
+
+        $choix = ChoixValide::withCount('details')
+            ->where('id_utilisateur', $idUtilisateur)
+            ->orderBy('date_choix', $tri)
+            ->get();
+
+        return view('utilisateur.historique-choix', [
+            'choix' => $choix,
+            'currentTri' => $tri,
+        ]);
+    }
+
+    /**
+     * Affiche le détail d'un choix validé (vérifie qu'il appartient à l'utilisateur connecté).
+     */
+    public function detailChoix($id)
+    {
+        $idUtilisateur = Session::get('id_utilisateur');
+
+        $choix = ChoixValide::with(['details.cadeau.categorie'])
+            ->where('id_choix', $id)
+            ->where('id_utilisateur', $idUtilisateur)
+            ->firstOrFail();
+
+        return view('utilisateur.detail-choix', [
+            'choix' => $choix,
+        ]);
+    }
+
 }
