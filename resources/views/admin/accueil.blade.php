@@ -115,6 +115,32 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Historique Dépôts -->
+            <a href="{{ route('admin.depots.historique') }}" class="bg-white rounded-xl p-6 shadow hover:shadow-lg transition-shadow border-l-4 border-anthracite">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-anthracite/10 p-4 rounded-full">
+                        <i class="fas fa-list text-2xl text-anthracite"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-anthracite">Historique des dépôts</h3>
+                        <p class="text-vert-foret text-sm">Voir tous les dépôts, filtres par statut et utilisateur</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Historique Choix validés -->
+            <a href="{{ route('admin.choix.historique') }}" class="bg-white rounded-xl p-6 shadow hover:shadow-lg transition-shadow border-l-4 border-rose-corail">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-corail/10 p-4 rounded-full">
+                        <i class="fas fa-gifts text-2xl text-rose-corail"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-anthracite">Historique des choix validés</h3>
+                        <p class="text-vert-foret text-sm">Voir les choix validés de tous les utilisateurs</p>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </div>
