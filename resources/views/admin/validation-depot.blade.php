@@ -50,7 +50,7 @@
                                             </button>
                                         </form>
 
-                                        <form method="POST" action="{{ route('depot.rejeter') }}">
+                                        <form method="POST" action="{{ route('depot.rejeter') }}" onsubmit="return confirmReject(this);">
                                             @csrf
                                             <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
                                             <button type="submit" class="p-2 bg-rose-corail text-white rounded-lg hover:bg-rose-corail/90" title="Refuser">
@@ -78,4 +78,15 @@
         </div>
     </div>
 </div>
+        <script>
+            function confirmValidate(form) {
+                var id = form.querySelector('input[name="id_depot"]').value || '';
+                return confirm('Confirmer la validation du dépôt #' + id + ' ?');
+            }
+
+            function confirmReject(form) {
+                var id = form.querySelector('input[name="id_depot"]').value || '';
+                return confirm('Confirmer le refus du dépôt #' + id + ' ?');
+            }
+        </script>
 @endsection
