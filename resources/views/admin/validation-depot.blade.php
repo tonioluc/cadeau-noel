@@ -36,7 +36,7 @@
                         @forelse($depots as $depot)
                             <tr class="hover:bg-vert-clair/20 transition-colors">
                                 <td class="px-6 py-4 text-anthracite font-medium">#{{ $depot->id_depot }}</td>
-                                <td class="px-6 py-4 text-anthracite font-medium">{{ optional($depot->utilisateur)->nom ?? '—' }} <span class="text-gray-400">• {{ optional($depot->utilisateur)->email ?? '' }}</span></td>
+                                <td class="px-6 py-4 text-anthracite font-medium">{{ optional($depot->utilisateur)->nom ?? '—' }}</span></td>
                                 <td class="px-6 py-4"><span class="text-sauge font-bold">{{ number_format($depot->montant_demande, 0, ',', ' ') }} Ar</span></td>
                                 <td class="px-6 py-4">{{ $depot->commission_applique }} %</td>
                                 <td class="px-6 py-4 text-vert-foret font-medium">{{ number_format($depot->montant_credit, 0, ',', ' ') }} Ar</td>
