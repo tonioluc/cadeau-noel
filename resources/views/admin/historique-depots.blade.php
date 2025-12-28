@@ -54,6 +54,7 @@
                     <th class="text-left px-4 py-3 text-vert-foret">Montant demandé</th>
                     <th class="text-left px-4 py-3 text-vert-foret">Montant crédité</th>
                     <th class="text-left px-4 py-3 text-vert-foret">Commission (%)</th>
+                    <th class="text-left px-4 py-3 text-vert-foret">Montant commission</th>
                     <th class="text-left px-4 py-3 text-vert-foret">Statut</th>
                 </tr>
             </thead>
@@ -65,6 +66,7 @@
                         <td class="px-4 py-3">{{ number_format($depot->montant_demande, 2, ',', ' ') }} Ar</td>
                         <td class="px-4 py-3">{{ number_format($depot->montant_credit, 2, ',', ' ') }} Ar</td>
                         <td class="px-4 py-3">{{ number_format($depot->commission_applique, 2, ',', ' ') }}</td>
+                        <td class="px-4 py-3">{{ number_format($depot->montant_demande - ($depot->montant_credit ?? 0), 2, ',', ' ') }} Ar</td>
                         <td class="px-4 py-3">{{ optional($depot->statut)->libelle ?? '—' }}</td>
                     </tr>
                 @empty
