@@ -18,62 +18,63 @@
                 <p class="text-gray-600 mt-1">Liste des dépôts en attente de validation</p>
             </div>
         </div>
-        <!-- Liste des dépôts -->
-        <div class="grid gap-4">
-            @if($depots->isEmpty())
-            <div class="bg-white/90 rounded-2xl shadow p-8 border border-gray-200 text-center">
-                <i class="fa-solid fa-inbox text-4xl text-gray-300 mb-4"></i>
-                <p class="text-gray-500">Aucun dépôt en attente.</p>
+        <!-- Liste des dépôts (tableau) -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-vert-clair/30">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-anthracite to-vert-foret text-white">
+                            <th class="px-6 py-4 text-left font-semibold">ID dépôt</th>
+                            <th class="px-6 py-4 text-left font-semibold">Utilisateur</th>
+                            <th class="px-6 py-4 text-left font-semibold">Montant demandé</th>
+                            <th class="px-6 py-4 text-left font-semibold">Commission</th>
+                            <th class="px-6 py-4 text-left font-semibold">Montant crédité</th>
+                            <th class="px-6 py-4 text-center font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse($depots as $depot)
+                            <tr class="hover:bg-vert-clair/20 transition-colors">
+                                <td class="px-6 py-4 text-anthracite font-medium">#{{ $depot->id_depot }}</td>
+                                <td class="px-6 py-4 text-anthracite font-medium">{{ optional($depot->utilisateur)->nom ?? '—' }} <span class="text-gray-400">• {{ optional($depot->utilisateur)->email ?? '' }}</span></td>
+                                <td class="px-6 py-4"><span class="text-sauge font-bold">{{ number_format($depot->montant_demande, 0, ',', ' ') }} Ar</span></td>
+                                <td class="px-6 py-4">{{ $depot->commission_applique }} %</td>
+                                <td class="px-6 py-4 text-vert-foret font-medium">{{ number_format($depot->montant_credit, 0, ',', ' ') }} Ar</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <form method="POST" action="{{ route('depot.valider') }}" onsubmit="return confirmValidate(this);">
+                                            @csrf
+                                            <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
+                                            <button type="submit" class="p-2 bg-vert-foret text-white rounded-lg hover:bg-vert-foret/90" title="Valider">
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+                                        </form>
+
+                                        <form method="POST" action="{{ route('depot.rejeter') }}">
+                                            @csrf
+                                            <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
+                                            <button type="submit" class="p-2 bg-rose-corail text-white rounded-lg hover:bg-rose-corail/90" title="Refuser">
+                                                <i class="fa-solid fa-times"></i>
+                                            </button>
+                                        </form>
+
+                                        <a href="{{ route('admin.parametres.index') }}" class="p-2 border rounded-lg text-gray-600" title="Détails">Détails</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-12 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fa-solid fa-inbox text-4xl text-gray-300 mb-4"></i>
+                                        <p class="text-gray-500 text-lg">Aucun dépôt en attente.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-            @else
-            @foreach($depots as $depot)
-            <div class="bg-white/90 rounded-2xl shadow p-6 border border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between">
-                <div class="flex items-start gap-4">
-                    <div class="w-44">
-                        <p class="text-sm text-gray-500">ID dépôt</p>
-                        <p class="text-anthracite font-medium">#{{ $depot->id_depot }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Utilisateur</p>
-                        <p class="text-anthracite font-medium">{{ optional($depot->utilisateur)->nom ?? '—' }}<span class="text-gray-400"> • {{ optional($depot->utilisateur)->email ?? '' }}</span></p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Montant demandé</p>
-                        <p class="text-sauge font-bold text-lg">{{ number_format($depot->montant_demande, 0, ',', ' ') }} Ar</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Commission</p>
-                        <p class="text-anthracite">{{ $depot->commission_applique }} %</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Montant crédité</p>
-                        <p class="text-vert-foret font-medium">{{ number_format($depot->montant_credit, 0, ',', ' ') }} Ar</p>
-                    </div>
-                </div>
-
-                <div class="mt-4 md:mt-0 flex items-center gap-3">
-                    <form method="POST" action="{{ route('depot.valider') }}" onsubmit="return confirmValidate(this);">
-                        @csrf
-                        <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
-                        <button type="submit" class="px-4 py-2 bg-vert-foret text-white rounded-lg hover:bg-vert-foret/90 flex items-center">
-                            <i class="fa-solid fa-check mr-2"></i> Valider
-                        </button>
-                    </form>
-
-                    <form method="POST" action="{{ route('depot.rejeter') }}" style="display:inline; margin-left:0.5rem;">
-                        @csrf
-                        <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
-                        <button type="submit" class="px-4 py-2 bg-rose-corail text-white rounded-lg hover:bg-rose-corail/90 flex items-center">
-                            <i class="fa-solid fa-times mr-2"></i> Refuser
-                        </button>
-                    </form>
-
-                    <a href="{{ route('admin.parametres.index') }}" class="px-3 py-2 border rounded-lg text-gray-600">Détails</a>
-                </div>
-            </div>
-            @endforeach
-
-            @endif
         </div>
     </div>
 </div>
