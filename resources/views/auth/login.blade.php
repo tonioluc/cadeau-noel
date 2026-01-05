@@ -11,7 +11,7 @@
     
     <div>
         <label for="nom" class="block text-vert-foret font-medium mb-2 font-sans">
-            <i class="fas fa-user mr-2"></i>Nom d'utilisateur
+            <i class="fas fa-user mr-2"></i>Nom d'utilisateur(test changement)
         </label>
         <input 
             type="text" 
