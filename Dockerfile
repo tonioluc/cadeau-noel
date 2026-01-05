@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
 # Extensions PHP
 RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl
 
+# Configurer PHP-FPM pour écouter sur 127.0.0.1:9000
+RUN echo "listen = 127.0.0.1:9000" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -23,14 +26,27 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+# Créer les dossiers nécessaires pour Nginx
+RUN mkdir -p /etc/nginx/sites-available && \
+    mkdir -p /etc/nginx/sites-enabled && \
+    mkdir -p /var/log/nginx
 
-# Nginx config
-COPY nginx.conf /etc/nginx/sites-enabled/default
+# Nginx config - copie et crée le lien symbolique
+COPY nginx.conf /etc/nginx/sites-available/default
+RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Supprime la config par défaut si elle existe
+RUN rm -f /etc/nginx/sites-enabled/default.bak 2>/dev/null || true
+
+# Test la configuration Nginx
+RUN nginx -t
+
+RUN composer install --no-dev --optimize-autoloader
 
 # Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
 
-CMD service nginx start && php-fpm
+# Script de démarrage
+CMD ["sh", "-c", "nginx -g 'daemon off;' & php-fpm -F"]
