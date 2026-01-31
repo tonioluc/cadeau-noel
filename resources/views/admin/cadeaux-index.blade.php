@@ -7,19 +7,19 @@
 @endsection
 
 @section('content')
-<div class="min-h-screen py-8">
+<div class="min-h-screen py-4 md:py-8">
     <div class="max-w-7xl mx-auto px-4">
         <!-- En-tête -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-anthracite font-mountains">
-                    <i class="fa-solid fa-gifts text-rose-corail mr-3"></i>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 md:mb-8">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-2xl md:text-3xl font-bold text-anthracite font-mountains">
+                    <i class="fa-solid fa-gifts text-rose-corail mr-2 md:mr-3"></i>
                     Gestion des Cadeaux
                 </h1>
-                <p class="text-gray-600 mt-2">{{ $cadeaux->total() }} cadeau(x) au total</p>
+                <p class="text-gray-600 mt-1 md:mt-2 text-sm md:text-base">{{ $cadeaux->total() }} cadeau(x) au total</p>
             </div>
             <a href="{{ route('admin.cadeaux.create') }}" 
-               class="mt-4 md:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-vert-foret to-vert-foret text-white rounded-xl hover:shadow-lg transform hover:scale-105 transition-all">
+               class="inline-flex items-center justify-center px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-vert-foret to-vert-foret text-white rounded-xl hover:shadow-lg transform hover:scale-105 transition-all text-sm md:text-base">
                 <i class="fa-solid fa-plus mr-2"></i>
                 Ajouter un cadeau
             </a>

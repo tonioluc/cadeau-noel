@@ -10,11 +10,17 @@
         background-repeat: no-repeat;
         background-position: right center;
     }
+    
+    @media (max-width: 768px) {
+        .content-bg {
+            background-position: center center;
+        }
+    }
 </style>
 
-<div class="content-bg min-h-[calc(100vh-12rem)] flex items-center justify-start p-6 pl-60">
-    <div class="w-full max-w-md mr-8">
-        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-10">
+<div class="content-bg min-h-[calc(100vh-12rem)] flex items-center justify-center md:justify-start p-4 md:p-6 md:pl-24 lg:pl-60">
+    <div class="w-full max-w-md mx-auto md:mx-0 md:mr-8">
+        <div class="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-2xl p-6 md:p-8 lg:p-10">
             <div class="text-left mb-6">
                 <i class="fas fa-coins text-rose-corail text-4xl mb-2"></i>
                 <h1 class="text-3xl font-christmas font-bold text-anthracite mb-1">Faire un dépôt</h1>

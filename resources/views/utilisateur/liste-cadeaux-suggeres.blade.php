@@ -63,11 +63,11 @@
     }
 </style>
 
-<div class="content-bg p-8">
+<div class="content-bg p-4 md:p-8">
     <div class="max-w-6xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 md:mb-6 gap-2">
             <div>
-                <h1 class="text-4xl font-christmas text-anthracite">Cadeaux suggérés</h1>
+                <h1 class="text-2xl md:text-4xl font-christmas text-anthracite">Cadeaux suggérés</h1>
             </div>
         </div>
 
@@ -154,27 +154,27 @@
 
             <!-- Résumé et actions -->
             <div class="summary-box">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-2xl font-semibold text-vert-foret">Total <i class="fas fa-coins text-yellow-400 mr-2"></i></p>
-                        <p class="text-2xl font-bold text-anthracite">{{ number_format($total, 2, ',', ' ') }} Ar</p>
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="text-center md:text-left">
+                        <p class="text-lg md:text-2xl font-semibold text-vert-foret">Total <i class="fas fa-coins text-yellow-400 mr-2"></i></p>
+                        <p class="text-xl md:text-2xl font-bold text-anthracite">{{ number_format($total, 2, ',', ' ') }} Ar</p>
                     </div>
-                    <div class="text-right">
+                    <div class="text-center md:text-right">
                         @if ($resteSolde < 0)
-                        <p class="text-red-600 font-semibold"><i class="fas fa-exclamation-triangle mr-2"></i>Solde insuffisant : {{ number_format($resteSolde, 2, ',', ' ') }} Ar</p>
-                        <a href="{{ route('depot.show') }}" class="text-rose-corail font-semibold"><i class="fas fa-piggy-bank mr-2"></i>Faire un dépôt</a>
-                        <div class="mt-3 space-x-3">
-                            <button type="submit" name="action" value="echanger" class="bg-vert-foret text-white font-semibold py-2 px-4 rounded">
+                        <p class="text-red-600 font-semibold text-sm md:text-base"><i class="fas fa-exclamation-triangle mr-2"></i>Solde insuffisant : {{ number_format($resteSolde, 2, ',', ' ') }} Ar</p>
+                        <a href="{{ route('depot.show') }}" class="text-rose-corail font-semibold text-sm md:text-base"><i class="fas fa-piggy-bank mr-2"></i>Faire un dépôt</a>
+                        <div class="mt-3 flex flex-col sm:flex-row gap-2 sm:justify-center md:justify-end">
+                            <button type="submit" name="action" value="echanger" class="bg-vert-foret text-white font-semibold py-2 px-4 rounded text-sm md:text-base">
                                 <i class="fas fa-exchange-alt mr-2"></i>Échanger les sélectionnés
                             </button>
                         </div>
                         @else
-                            <p class="text-vert-foret"><i class="fas fa-check-circle text-vert-foret mr-2"></i>Reste du solde après validation : <strong>{{ number_format($resteSolde, 2, ',', ' ') }} Ar</strong></p>
-                            <div class="mt-3 space-x-3">
-                                <button type="submit" name="action" value="echanger" class="bg-vert-foret text-white font-semibold py-2 px-4 rounded">
-                                    <i class="fas fa-exchange-alt mr-2"></i>Échanger les sélectionnés
+                            <p class="text-vert-foret text-sm md:text-base"><i class="fas fa-check-circle text-vert-foret mr-2"></i>Reste du solde : <strong>{{ number_format($resteSolde, 2, ',', ' ') }} Ar</strong></p>
+                            <div class="mt-3 flex flex-col sm:flex-row gap-2 sm:justify-center md:justify-end">
+                                <button type="submit" name="action" value="echanger" class="bg-vert-foret text-white font-semibold py-2 px-4 rounded text-sm md:text-base">
+                                    <i class="fas fa-exchange-alt mr-2"></i>Échanger
                                 </button>
-                                <button type="submit" name="action" value="valider" formaction="{{ route('utilisateur.valider-cadeaux') }}" class="bg-rose-corail text-white font-semibold py-2 px-4 rounded">
+                                <button type="submit" name="action" value="valider" formaction="{{ route('utilisateur.valider-cadeaux') }}" class="bg-rose-corail text-white font-semibold py-2 px-4 rounded text-sm md:text-base">
                                     <i class="fas fa-check mr-2"></i>Valider ce choix
                                 </button>
                             </div>
@@ -184,8 +184,8 @@
             </div>
         </form>
 
-        <div class="mt-6 text-right">
-            <a href="{{ route('utilisateur.form-entrer-nbr-enfants') }}" class="text-vert-foret hover:underline">← Retour au formulaire</a>
+        <div class="mt-4 md:mt-6 text-center md:text-right">
+            <a href="{{ route('utilisateur.form-entrer-nbr-enfants') }}" class="text-vert-foret hover:underline text-sm md:text-base">← Retour au formulaire</a>
         </div>
     </div>
 </div>

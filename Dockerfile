@@ -46,7 +46,11 @@ RUN composer install --no-dev --optimize-autoloader
 # Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Rendre le script d'entrée exécutable
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 EXPOSE 80
 
-# Script de démarrage
-CMD ["sh", "-c", "nginx -g 'daemon off;' & php-fpm -F"]
+# Script de démarrage qui exécute les migrations puis lance les services
+CMD ["/docker-entrypoint.sh"]

@@ -7,19 +7,67 @@
 @endsection
 
 @section('content')
-<div class="min-h-screen py-8">
+<div class="min-h-screen py-4 md:py-8">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6">
             <div>
-                <h1 class="text-3xl font-bold text-anthracite font-mountains">
-                    <i class="fa-solid fa-wallet text-rose-corail mr-3"></i>
+                <h1 class="text-2xl md:text-3xl font-bold text-anthracite font-mountains">
+                    <i class="fa-solid fa-wallet text-rose-corail mr-2 md:mr-3"></i>
                     Validation des dépôts
                 </h1>
-                <p class="text-gray-600 mt-1">Liste des dépôts en attente de validation</p>
+                <p class="text-gray-600 mt-1 text-sm md:text-base">Liste des dépôts en attente de validation</p>
             </div>
         </div>
-        <!-- Liste des dépôts (tableau) -->
-        <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-vert-clair/30">
+        
+        <!-- Mobile view: cards -->
+        <div class="md:hidden space-y-3">
+            @forelse($depots as $depot)
+                <div class="bg-white/90 rounded-xl shadow p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="font-bold text-anthracite">#{{ $depot->id_depot }}</span>
+                        <span class="text-sm text-gray-600">{{ optional($depot->utilisateur)->nom ?? '—' }}</span>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Montant demandé:</span>
+                            <span class="font-bold text-sauge">{{ number_format($depot->montant_demande, 0, ',', ' ') }} Ar</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Commission:</span>
+                            <span>{{ $depot->commission_applique }} %</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Montant crédité:</span>
+                            <span class="font-medium text-vert-foret">{{ number_format($depot->montant_credit, 0, ',', ' ') }} Ar</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 mt-4 pt-3 border-t">
+                        <form method="POST" action="{{ route('depot.valider') }}" onsubmit="return confirmValidate(this);" class="flex-1">
+                            @csrf
+                            <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
+                            <button type="submit" class="w-full p-2 bg-vert-foret text-white rounded-lg text-sm">
+                                <i class="fa-solid fa-check mr-1"></i> Valider
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ route('depot.rejeter') }}" onsubmit="return confirmReject(this);" class="flex-1">
+                            @csrf
+                            <input type="hidden" name="id_depot" value="{{ $depot->id_depot }}">
+                            <button type="submit" class="w-full p-2 bg-rose-corail text-white rounded-lg text-sm">
+                                <i class="fa-solid fa-times mr-1"></i> Refuser
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div class="bg-white/90 rounded-xl shadow p-6 text-center">
+                    <i class="fa-solid fa-inbox text-4xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">Aucun dépôt en attente.</p>
+                </div>
+            @endforelse
+        </div>
+        
+        <!-- Desktop view: table -->
+        <div class="hidden md:block bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-vert-clair/30">
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>

@@ -10,18 +10,24 @@
         background-repeat: no-repeat;
         background-position: left center;
     }
+    
+    @media (max-width: 768px) {
+        .content-bg {
+            background-position: center center;
+        }
+    }
 </style>
 
-<div class="content-bg min-h-[calc(100vh-12rem)] flex items-center justify-end p-6 pr-60 pb-0 mb-0">
-    <div class="w-full max-w-xl">
+<div class="content-bg min-h-[calc(100vh-12rem)] flex items-center justify-center md:justify-end p-4 md:p-6 md:pr-24 lg:pr-60 pb-0 mb-0">
+    <div class="w-full max-w-xl mx-auto md:mx-0">
         <!-- Formulaire -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-12">
-            <div class="text-center mb-8">
-                <i class="fas fa-gift text-rose-corail text-5xl mb-4"></i>
-                <h1 class="text-4xl font-christmas font-bold text-anthracite mb-2">
+        <div class="bg-white/95 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-2xl p-6 md:p-8 lg:p-12">
+            <div class="text-center mb-6 md:mb-8">
+                <i class="fas fa-gift text-rose-corail text-4xl md:text-5xl mb-3 md:mb-4"></i>
+                <h1 class="text-2xl md:text-4xl font-christmas font-bold text-anthracite mb-2">
                     Générateur de Cadeaux
                 </h1>
-                <p class="text-vert-foret font-sans">
+                <p class="text-vert-foret font-sans text-sm md:text-base">
                     Remplissez le formulaire pour obtenir vos suggestions
                 </p>
             </div>
