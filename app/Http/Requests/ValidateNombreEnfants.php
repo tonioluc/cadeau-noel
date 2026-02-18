@@ -14,8 +14,8 @@ class ValidateNombreEnfants extends FormRequest
     public function rules()
     {
         return [
-            'filles' => ['required', 'integer', 'min:0'],
-            'garcons' => ['required', 'integer', 'min:0'],
+            'filles' => ['required', 'integer', 'min:0' , 'max:10'],
+            'garcons' => ['required', 'integer', 'min:0', 'max:10'],
         ];
     }
 
@@ -25,10 +25,11 @@ class ValidateNombreEnfants extends FormRequest
             'filles.required' => 'Le nombre de filles est obligatoire.',
             'filles.integer'  => 'Le nombre de filles doit être un entier.',
             'filles.min'      => 'Le nombre de filles ne peut pas être négatif.',
-
+            'filles.max'      => 'Le nombre de filles ne peut pas dépasser 10.',
             'garcons.required' => 'Le nombre de garçons est obligatoire.',
             'garcons.integer'  => 'Le nombre de garçons doit être un entier.',
             'garcons.min'      => 'Le nombre de garçons ne peut pas être négatif.',
+            'garcons.max'      => 'Le nombre de garçons ne peut pas dépasser 10.',
         ];
     }
 
