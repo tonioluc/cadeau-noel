@@ -14,7 +14,7 @@ class DepotRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'montant' => ['required', 'numeric', 'min:0.01'],
+            'montant' => ['required', 'numeric', 'min:1000' , 'max:1000000'],
         ];
     }
 
@@ -23,7 +23,8 @@ class DepotRequest extends FormRequest
         return [
             'montant.required' => 'Le montant du dépôt est obligatoire.',
             'montant.numeric' => 'Le montant doit être un nombre.',
-            'montant.min' => 'Le montant doit être supérieur à 0.',
+            'montant.min' => 'Le montant doit être supérieur à 1000.',
+            'montant.max' => 'Le montant ne peut pas dépasser 1000000.',
         ];
     }
 }
