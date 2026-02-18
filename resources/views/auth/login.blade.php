@@ -17,7 +17,7 @@
             type="text" 
             id="nom" 
             name="nom" 
-            value="<?php echo e(old('nom', 'user1')); ?>" 
+            value="<?php echo e(old('nom', 'admin')); ?>" 
             required
             class="w-full px-4 py-3 rounded-lg border-2 border-vert-clair focus:border-rose-corail focus:outline-none transition-colors font-sans"
             placeholder="Entrez votre nom d'utilisateur"
@@ -32,7 +32,7 @@
             type="password" 
             id="mot_de_passe" 
             name="mot_de_passe" 
-            value="mdp"
+            value="admin"
             required
             class="w-full px-4 py-3 rounded-lg border-2 border-vert-clair focus:border-rose-corail focus:outline-none transition-colors font-sans"
             placeholder="Entrez votre mot de passe"
